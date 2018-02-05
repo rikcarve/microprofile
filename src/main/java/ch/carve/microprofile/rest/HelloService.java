@@ -6,27 +6,31 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.faulttolerance.Bulkhead;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 
-import io.opentracing.ActiveSpan;
-import io.opentracing.util.GlobalTracer;
+import io.opentracing.contrib.cdi.Traced;
+import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 
 @RequestScoped
 public class HelloService {
 
-    private Client client = ClientBuilder.newClient();
+    private Client client = ClientBuilder.newBuilder().register(ClientTracingFeature.class).build();
 
     @Inject
     @ConfigProperty(name = "hello-uri", defaultValue = "http://localhost:8080/hello")
     private String uri;
 
-    // @Retry(maxRetries = 1)
-    // @Bulkhead(5)
-    // @Fallback(fallbackMethod = "fallback")
+    @Retry(maxRetries = 1)
+    @Bulkhead(5)
+    @Fallback(fallbackMethod = "fallback")
+    @Traced
     public String getHello() {
         String response = null;
-        try (ActiveSpan span = GlobalTracer.get().buildSpan("hello").startActive()) {
-            response = client.target(uri).request().get(String.class);
-        }
+        // try (Scope scope = tracer.buildSpan("hello").startActive(true)) {
+        response = client.target(uri).request().get(String.class);
+        // }
         return response;
     }
 
