@@ -25,9 +25,7 @@ public class HelloService {
     @Fallback(fallbackMethod = "fallback")
     @Traced
     public String getHello() {
-        String response = null;
-        response = client.target(uri).request().get(String.class);
-        return response;
+        return client.target(uri).request().get(String.class);
     }
 
     private String fallback() {

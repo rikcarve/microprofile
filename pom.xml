@@ -14,7 +14,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jaeger.version>0.24.0</jaeger.version>
+        <jaeger.version>0.20.5</jaeger.version>
     </properties>
 
     <dependencyManagement>
@@ -70,12 +70,14 @@
             <artifactId>opentracing-jaxrs2</artifactId>
             <version>0.1.2</version>
         </dependency>
+
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-cdi</artifactId>
             <version>0.1.0</version>
         </dependency>
-        <dependency>
+
+         <dependency>
             <groupId>com.uber.jaeger</groupId>
             <artifactId>jaeger-tracerresolver</artifactId>
             <version>${jaeger.version}</version>
