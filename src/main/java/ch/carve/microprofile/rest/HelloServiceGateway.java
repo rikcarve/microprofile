@@ -12,7 +12,7 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import io.opentracing.contrib.cdi.Traced;
 import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 
-public class HelloService {
+public class HelloServiceGateway {
 
     private Client client = ClientBuilder.newBuilder().register(ClientTracingFeature.class).build();
 
@@ -25,6 +25,7 @@ public class HelloService {
     @Fallback(fallbackMethod = "fallback")
     @Traced
     public String getHello() {
+        // return helloService.sayhello();
         return client.target(uri).request().get(String.class);
     }
 

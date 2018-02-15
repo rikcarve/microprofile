@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 public class MicroEndpoint {
 
     @Inject
-    private HelloService hello;
+    private HelloServiceGateway hello;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
