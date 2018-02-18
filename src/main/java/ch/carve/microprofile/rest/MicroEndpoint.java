@@ -7,8 +7,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 @Path("/micro")
 public class MicroEndpoint {
+
+    @Inject
+    @ConfigProperty(name = "hello-suffix", defaultValue = "world")
+    private String suffix;
 
     @Inject
     private HelloServiceGateway hello;
@@ -16,6 +22,6 @@ public class MicroEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response doGet() {
-        return Response.ok(hello.getHello()).build();
+        return Response.ok(hello.getHello() + suffix).build();
     }
 }

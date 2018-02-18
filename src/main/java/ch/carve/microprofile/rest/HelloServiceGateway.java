@@ -17,7 +17,7 @@ public class HelloServiceGateway {
     private Client client = ClientBuilder.newBuilder().register(ClientTracingFeature.class).build();
 
     @Inject
-    @ConfigProperty(name = "hello-uri", defaultValue = "http://localhost:8080/hello")
+    @ConfigProperty(name = "hello-uri", defaultValue = "http://localhost:8888/hello")
     private String uri;
 
     @Retry(maxRetries = 1)
